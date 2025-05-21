@@ -55,8 +55,9 @@ apps = {
     "notepad": "notepad",
     "calculator": "calc",
     "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    "steam": "D:\\Staem\\Steam.exe",
-    #Add all the Remaining paths
+    "vs code": "C:\\Users\\Sharath Chandra\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "file manager": "explorer"
+    #Add Remaining paths
 }
 
 
