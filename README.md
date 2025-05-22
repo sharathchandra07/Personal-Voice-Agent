@@ -25,9 +25,6 @@ A simple voice assistant powered by local LLMs using [Ollama](https://ollama.com
   
 5. Conversation History (It remembers past conversations)
 
-## 🧠 LLM Setup
-
-You **must** pull and run an Ollama model before using the assistant.
 
 Example:
 
