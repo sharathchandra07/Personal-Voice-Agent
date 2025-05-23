@@ -56,7 +56,6 @@ apps = {
     "calculator": "calc",
     "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     "steam": "D:\\Staem\\Steam.exe",
-    "vs code": "start shell:AppsFolder\\Microsoft.VisualStudioCode",
     #Add all the Remaining paths
 }
 
@@ -198,16 +197,23 @@ def start_jarvis(src, config):
             if 'open' in lst:
                 idx = lst.index('open')+1
                 if (idx < len(lst)):
-                    application = lst[idx]
-                    open_application(application)
+                    application=""
+                    for i in range(idx, len(lst)):
+                        application = application + lst[i] + " "
+                    # print(application)
+                    app = application.replace(' ', '')
+                    open_application(app)
                     continue
                 else:
                     chat_with_AI(audio_input, config)
             elif 'close' in lst:
                 idx = lst.index('close')+1
                 if (idx < len(lst)):
-                    application = lst[idx]
-                    close_application(application)
+                    application=""
+                    for i in range(idx, len(lst)):
+                        application = application + lst[i] + " "
+                    app = application.replace(' ', '')
+                    close_application(app)
                     continue
                 else:
                     chat_with_AI(audio_input, config)
