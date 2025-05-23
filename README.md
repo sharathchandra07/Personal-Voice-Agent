@@ -12,18 +12,19 @@ A simple voice assistant powered by local LLMs using [Ollama](https://ollama.com
 
 - Python 3.9+
 - [Ollama](https://ollama.com/) (must be installed and running)
-- A compatible local model (e.g., `llama3`, `phi3`, etc.)
+- A compatible local model (e.g., `llama3`, `gemma`, etc.)
 
 ## 🔊 Features (In Progress)
-🎤 Voice input via microphone (speech-to-text)
+1. Voice input via microphone (speech-to-text)
 
-🗣️ AI response via local model (Ollama)
+2. AI response via local model (Ollama(offline) / Groq(online))
 
-🗣️ Voice output (text-to-speech)
+3. Voice output (text-to-speech)
 
-## 🧠 LLM Setup
+4. Custom Commands (Open/Close applications)
+  
+5. Conversation History (It remembers past conversations)
 
-You **must** pull and run an Ollama model before using the assistant.
 
 Example:
 
