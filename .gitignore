@@ -1,3 +1,5 @@
 .venv
 chatbot.ipynb
 .env
+voice_enroll.py
+authentication.py

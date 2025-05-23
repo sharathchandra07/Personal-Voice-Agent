@@ -55,12 +55,13 @@ apps = {
     "notepad": "notepad",
     "calculator": "calc",
     "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    "steam": "D:\\Staem\\Steam.exe"
+    "steam": "D:\\Staem\\Steam.exe",
+    "vs code": "start shell:AppsFolder\\Microsoft.VisualStudioCode",
     #Add all the Remaining paths
 }
 
 
-def chatwithollama(audio_input, config1): 
+def chat_with_AI(audio_input, config1): 
     response = history.invoke(
     [HumanMessage(content=audio_input)],
     config=config1)
@@ -79,6 +80,8 @@ def speak(text):
     engine.runAndWait()
     return
 
+
+
 def open_application(app):
     if app in apps:
         text = "Sure sir. Here you go"
@@ -95,6 +98,7 @@ def close_application(app):
         text = "Sure sir. Here you go"
         speak(text)
         subprocess.run(f"taskkill /f /im {app}.exe", shell=True)
+        time.sleep(3)
         app_status[app] = 0
     else:
         speak(f"{app} is not yet opened sir.")
@@ -108,6 +112,24 @@ def open_website(site):
     speak(text)
     url = f"https://{site}"
     webbrowser.open(url)
+    time.sleep(3)
+    return
+
+
+def search_youtube(query):
+    text = "Sure sir. Here you go"
+    speak(text)
+    url = f"https://www.youtube.com/results?search_query={query}"
+    webbrowser.open(url)
+    time.sleep(3)
+    return
+
+def search_google(query):
+    text = "Sure sir. Here you go"
+    speak(text)
+    url = f"https://www.google.com/search?q={query}"
+    webbrowser.open(url)
+    time.sleep(3)
     return
 
 def start_jarvis(src, config):
@@ -132,7 +154,6 @@ def start_jarvis(src, config):
             if "jarvis" in lst:
                 lst.remove("jarvis")
 
-            print(lst)
         except sr.UnknownValueError:
             text = "Sorry sir, I am unable to catch you."
             speak(text)
@@ -147,6 +168,31 @@ def start_jarvis(src, config):
             speak(text)
             start_app()
 
+        if "search for" in audio_input:
+            idx = lst.index("for")+1
+            if (idx < len(lst)):
+                c=0
+                query=""
+                if 'in' in lst:
+                    lst.remove('in')
+                if 'google' in lst:
+                    lst.remove('google')
+                if 'youtube' in lst:
+                    lst.remove('youtube')
+                    c=1
+
+                for i in range(idx, len(lst)):
+                    query = query + lst[i] + " "
+                if c == 0:
+                    search_google(query)
+                else:
+                    search_youtube(query)
+            else:
+                speak("What do you want me to search for sir?")
+
+            continue
+                
+
         
         if 'open' in lst or 'close' in lst:
             if 'open' in lst:
@@ -156,7 +202,7 @@ def start_jarvis(src, config):
                     open_application(application)
                     continue
                 else:
-                    chatwithollama(audio_input, config)
+                    chat_with_AI(audio_input, config)
             elif 'close' in lst:
                 idx = lst.index('close')+1
                 if (idx < len(lst)):
@@ -164,10 +210,10 @@ def start_jarvis(src, config):
                     close_application(application)
                     continue
                 else:
-                    chatwithollama(audio_input, config)
+                    chat_with_AI(audio_input, config)
 
         else:
-            chatwithollama(audio_input, config)
+            chat_with_AI(audio_input, config)
 
 
     
@@ -178,6 +224,9 @@ def set_history(session_id:str) -> BaseChatMessageHistory:
         store[session_id] = ChatMessageHistory()
         store[session_id].add_message(SystemMessage(content="You are Jarvis, an intelligent and loyal AI assistant. You must always refer to yourself as Jarvis. When asked 'who are you', say 'I am Jarvis, your AI voice agent. I am ready to help you in performing various tasks.'"))
         store[session_id].add_message(SystemMessage(content="You are Jarvis, an intelligent and loyal AI assistant. You must always refer to yourself as Jarvis. When asked 'what is your name', say 'My name is Jarvis. I am your AI voice agent.'"))
+        store[session_id].add_message(SystemMessage(content="You are an empathetic voice assistant. Respond to happy messages with enthusiasm, sad messages with comfort, and questions with clarity. Mimic human emotional tone appropriately."))
+        store[session_id].add_message(SystemMessage(content="You are a voice assistant that responds with human-like emotions. If the user is excited, reply enthusiastically. If the user sounds sad, be comforting. Always show emotional intelligence in your tone."))
+        store[session_id].add_message(SystemMessage(content="You are a multilingual voice assistant. If a message comes in with a 'language' field, respond in that language appropriately. Be emotionally intelligent and speak naturally."))
     return store[session_id]
 
 history = RunnableWithMessageHistory(model, set_history)
@@ -193,7 +242,7 @@ def start_app():
                 # print(wake_word)
 
                 if "hey jarvis" in wake_word:
-                    welcome_text = "Hello sir. This is Jarvis, your voice agent. I am here to help you."
+                    welcome_text = "Hello sir. This is Jarvis, welcome back."
                     engine.say(welcome_text)
 
                     print(welcome_text)
